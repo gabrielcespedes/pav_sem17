@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Bienvenido al Panel</h2>
+
+    <p>Hola {{ user.username }} </p>
+    <p>Tu rol actual es: <strong>{{ user.role }}</strong></p>
+
+    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+    <a href="{{ url_for('auth.admin_dashboard') }}">Colaboradores</a>
+    {% endif %}
+
+    <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+{% endblock %}

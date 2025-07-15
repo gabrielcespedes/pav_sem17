@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-5 text-center">
+    <h1>Bienvenido a la Plataforma de Acceso Seguro</h1>
+    <p class="lead">Gestiona usuarios y roles con autenticación protegida.</p>
+    
+    <!-- Imagen decorativa -->
+    <img src="{{ url_for('static', filename='img/security.jpg') }}" alt="Seguridad" class="img-fluid mt-4 rounded shadow w-25">
+  </div>
+{% endblock %}

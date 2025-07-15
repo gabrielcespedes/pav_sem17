@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mi Aplicación Web{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Inicio</a>
+        {% if current_user.is_authenticated %}
+        {% if current_user.role == 'admin' %}
+        <a class="navbar-brand" href="{{ url_for('auth.user_dashboard') }}">Dashboard</a>
+        <a class="navbar-brand" href="{{ url_for('auth.admin_dashboard') }}">Colaboradores</a>
+        {% else %}
+        <a class="navbar-brand" href="{{ url_for('auth.user_dashboard') }}">Dashboard</a>
+        {% endif %}
+        {% endif %}
+        <div class="ms-auto">
+            {% if current_user.is_authenticated %}
+                <span class="me-2">Hola, {{ current_user.username }}</span>
+                <a class="btn btn-outline-danger btn-sm" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+            {% else %}
+                <a class="btn btn-outline-primary btn-sm me-2" href="{{ url_for('auth.login') }}">Iniciar sesión</a>
+                <a class="btn btn-outline-success btn-sm" href="{{ url_for('auth.register') }}">Registrarse</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
